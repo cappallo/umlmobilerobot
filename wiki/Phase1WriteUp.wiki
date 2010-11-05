@@ -1,0 +1,22 @@
+#summary One-sentence summary of this page.
+
+    * introduction
+          o briefly discuss what robot is (hardware)
+          o what problem is
+          o objectives
+          o restrictions
+    * assumptions
+          o simplifying assumptions
+          o constraints
+          o how we arrived at algorithm
+    * initial algorithm
+          o sequence diagram (scan, go forward, repeat, etc.)
+    * possible new algorithms, refinements
+
+
+    * ...and the code
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
