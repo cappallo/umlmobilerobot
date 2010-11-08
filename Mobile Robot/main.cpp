@@ -38,6 +38,7 @@ ArSonarDevice sonar;
 
 int main(int argc, char** argv)
 {
+	// ************ Robot Init Block ********************
 	Aria::init();
 
 	robot.addRangeDevice(&sonar);
@@ -60,8 +61,12 @@ int main(int argc, char** argv)
 	robot.enableMotors();
 	robot.runAsync(true);
 
+	// Sets the difference required for being done with a move
 	robot.setMoveDoneDist(1.0);
+	// Sets the difference required for being done with a heading change (e.g. used in isHeadingDone())
 	robot.setHeadingDoneDiff(0.5);
+	// ***************************************************
+
 
 	// main loop
 	ArPose gapLocation;
