@@ -169,7 +169,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\scan.cpp"
+				RelativePath=".\RobotController.cpp"
 				>
 			</File>
 		</Filter>
@@ -180,6 +180,10 @@
 			>
 			<File
 				RelativePath=".\global.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RobotController.hpp"
 				>
 			</File>
 		</Filter>

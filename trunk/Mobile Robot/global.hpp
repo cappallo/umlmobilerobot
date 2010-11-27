@@ -8,6 +8,8 @@
 #include "Aria.h"
 
 // GLOBAL DATA -----------------------------------------------------------------
+typedef std::vector<ArPose> PoseVec;
+typedef PoseVec::iterator PoseVecIter;
 
 extern const double ADVANCE_STOP_RANGE;
 extern const double GAP_X_CLEARANCE;
@@ -28,19 +30,7 @@ enum SonarIndex {
 extern const double HEADING_PLUS_X, HEADING_PLUS_Y,
                     HEADING_MINUS_X, HEADING_MINUS_Y;
 
-extern ArRobot robot;
-extern ArSonarDevice sonar;
 
-// FUNCTION DECLARATIONS -------------------------------------------------------
-
-void stopRobot();
-void moveRobot(double distance);
-void setRobotTh(double th);
-
-void doCenter();
-void doAdvance();
-bool doScan(ArPose& gapLocation);
-void doMoveThroughGap(ArPose gapLocation);
 
 // CONVENIENCE FUNCTIONS -------------------------------------------------------
 
