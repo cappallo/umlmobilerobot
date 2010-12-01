@@ -6,7 +6,6 @@
 using namespace std;
 
 
-
 RobotController :: RobotController(int &argc, char **argv) {
 	
 	// ************ Robot Init Block ********************
