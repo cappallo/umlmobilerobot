@@ -5,6 +5,22 @@
 
 using namespace std;
 
+/*
+  This is a class that has some callback methods. Functors which refer to these
+  callbacks will be passed to the DriverClass.  
+*/
+class CallbackContainer
+{
+public:
+
+  void callback1();
+};
+
+void CallbackContainer::callback1()
+{
+  printf("CallbackContainer::callback1 called.\n");
+}
+
 
 RobotController :: RobotController(int &argc, char **argv) {
 	
@@ -29,6 +45,20 @@ RobotController :: RobotController(int &argc, char **argv) {
 	}
 
 	robot.enableMotors();
+
+	//Escape Key
+	CallbackContainer cb;
+  
+
+	ArFunctorC<CallbackContainer> functor1(cb, &CallbackContainer::callback1);
+
+	ArKeyHandler keyHandler;
+	keyHandler.addKeyHandler(ArKeyHandler::SPACE, &functor1);
+
+	Aria::setKeyHandler(&keyHandler);
+	robot.attachKeyHandler(&keyHandler,true, true);
+
+	
 	robot.runAsync(true);
 
 	// Sets the difference required for being done with a move
@@ -49,6 +79,7 @@ void RobotController :: startAutomation() {
 	// main loop
 	ArPose gapLocation;
 	while (true) {
+		
 		doCenter();
 		doAdvance();
 		if (!doScan(gapLocation))
