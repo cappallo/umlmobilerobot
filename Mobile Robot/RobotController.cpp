@@ -353,15 +353,15 @@ bool RobotController :: doScan(ArPose& gapLocation)
 	};
 
 	/*
-		Same as the ArUtil::sleep, but divided into 100 intervals
+		Same as the ArUtil::sleep, but divided into 10 intervals
 		wherein it checks to make sure there hasn't been a keystroke.
 		If there has, attempts to stop the robot and kills the process.
 	*/
 	void RobotController :: safeSleep(int duration)
 	{
-		for (int i=0; i<100; i++)
+		for (int i=0; i<10; i++)
 		{
-			ArUtil::sleep(duration/100);
+			ArUtil::sleep(duration/10);
 			if (kbhit())
 			{
 				cout << "  KEYSTROKE -- halting robot and killing process" << endl;

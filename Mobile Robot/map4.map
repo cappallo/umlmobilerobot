@@ -1,0 +1,28 @@
+2D-Map
+Resolution: 0
+LineMinPos: 0 -33
+LineMaxPos: 7420 2684
+NumLines: 7
+LinesAreSorted: true
+MapInfo: DockType "Name=Dock" "Label=Dock" "NameRequired=1" "Color0=0xffff00" "Color1=0x000000" "Color2=0x000000" "Heading=Required"
+MapInfo: GoalType "Name=Goal" "Label=Goal" "NameRequired=1" "Color0=0x008080" "Color1=0x00ffff" "Color2=0x008080"
+MetaInfo: Rotation "Value=0"
+MetaInfo: Feature "Name=changeprocessing"
+RouteInfo: EveryBefore "_everyBefore"
+RouteInfo: EveryAfter "_everyAfter"
+SchedInfo: Current "_Friday"
+SchedInfo: Current "_Monday"
+SchedInfo: Current "_Saturday"
+SchedInfo: Current "_Sunday"
+SchedInfo: Current "_Thursday"
+SchedInfo: Current "_Tuesday"
+SchedInfo: Current "_Wednesday"
+LINES
+0 0 7415 0
+0 2600 7420 2600
+20 2600 20 0
+2691 2684 2691 1165
+4101 -33 4101 1444
+5537 2627 5537 1164
+7402 2603 7402 -9
+DATA
