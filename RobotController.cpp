@@ -81,7 +81,7 @@ void RobotController :: startAutomation() {
 	ArPose gapLocation;
 	while (true) {
 		
-		doCenter();
+		//doCenter();
 		doAdvance();
 		if (!doScan(gapLocation))
 			break;
@@ -116,20 +116,33 @@ void RobotController :: moveRobot(double distance)
 
 	// NOTE: This approach was buggy (the robot didn't always stop quickly), so
 	// I replaced it. Maybe we can troubleshoot it later? -Ryan
-//	robot.lock();
-//	robot.move(distance);
-//	robot.unlock();
-//	while (!robot.isMoveDone())
-//		ArUtil::sleep(100);
-//	stopRobot();
+	//robot.lock();
+	//robot.move(distance);
+	//robot.unlock();
+	//while (!robot.isMoveDone())
+	//	ArUtil::sleep(10);
+	//stopRobot();
 	
 	static const double SLEEP_COEF = 1000.0 / MOVE_VEL;
 
 	robot.lock();
 	robot.setVel((distance < 0) ? -MOVE_VEL : MOVE_VEL);
 	robot.unlock();
-	safeSleep(abs(distance * SLEEP_COEF));
+	for(int i=1; i< 10; i++){
+		safeSleep(abs(distance * SLEEP_COEF)/10);
+		//Failsafe to stop move if too close
+		if(distance<0) {
+			if (robot.getSonarRange(SONAR_BL10) < MOVE_STOP_RANGE || robot.getSonarRange(SONAR_BR10) < MOVE_STOP_RANGE)
+				break;
+		}
+		else{
+			if (robot.getSonarRange(SONAR_FL10) < MOVE_STOP_RANGE || robot.getSonarRange(SONAR_FR10) < MOVE_STOP_RANGE)
+				break;
+		}
+	}
+
 	stopRobot();
+
 }
 
 
@@ -229,7 +242,8 @@ void RobotController :: doMoveThroughGap(ArPose gapLocation)
 	moveRobot(gapLocation.getY());
 
 	setRobotTh(HEADING_PLUS_X);
-	moveRobot(gapLocation.getX() + GAP_X_CLEARANCE);
+	//moveRobot(gapLocation.getX() + GAP_X_CLEARANCE);
+	
 }
 
 
@@ -244,7 +258,7 @@ bool RobotController :: doScan(ArPose& gapLocation)
 	cout << "SCANNING" << endl;
 	PoseVec readings;
 
-	setRobotTh(-10.0);
+	setRobotTh(-20.0);
 
 	cout << "  setting the robot's rotational velocity to 5 deg/s" << endl;
 	// start the robot rotating counter-clockwise
@@ -253,10 +267,10 @@ bool RobotController :: doScan(ArPose& gapLocation)
 	robot.unlock();
 
 	// collect four sets of sonar readings
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 5; ++i) {
 
 		// wait for the robot to rotate by 5 degrees for each iteration
-		while (robot.getTh() < (-10.0 + i * 5.0))
+		while (robot.getTh() < (-20.0 + i * 10.0))
 			safeSleep(100);
 
 		// collect readings from the six front sonars spanning the -50 deg to

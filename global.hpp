@@ -12,7 +12,7 @@ typedef std::vector<ArPose> PoseVec;
 typedef PoseVec::iterator PoseVecIter;
 
 extern const double ADVANCE_STOP_RANGE;
-extern const double GAP_X_CLEARANCE;
+extern const double MOVE_STOP_RANGE;
 extern const double MOVE_VEL;
 
 extern const double STOP_DONE_VEL;
