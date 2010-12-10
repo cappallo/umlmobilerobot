@@ -2,6 +2,7 @@
 
 #include "RobotController.hpp"
 #include "global.hpp"
+#include <conio.h>
 
 using namespace std;
 
@@ -101,7 +102,7 @@ void RobotController :: stopRobot()
 	robot.unlock();
 	while (abs(robot.getVel()) > STOP_DONE_VEL ||
 			abs(robot.getRotVel()) > STOP_DONE_ROT_VEL)
-		ArUtil::sleep(100);
+		safeSleep(100);
 }
 
 
@@ -127,7 +128,7 @@ void RobotController :: moveRobot(double distance)
 	robot.lock();
 	robot.setVel((distance < 0) ? -MOVE_VEL : MOVE_VEL);
 	robot.unlock();
-	ArUtil::sleep(abs(distance * SLEEP_COEF));
+	safeSleep(abs(distance * SLEEP_COEF));
 	stopRobot();
 }
 
@@ -143,7 +144,7 @@ void RobotController :: setRobotTh(double th)
 	robot.setHeading(th);
 	robot.unlock();
 	while (!robot.isHeadingDone())
-		ArUtil::sleep(100);
+		safeSleep(100);
 	stopRobot();
 
 	// This is an attempt to make the turn faster. It works, but isn't much
@@ -203,7 +204,7 @@ void RobotController :: doAdvance()
 	// don't stop until one of the front two sensors sees an obstacle
 	while (robot.getSonarRange(SONAR_FL10) > ADVANCE_STOP_RANGE &&
 			robot.getSonarRange(SONAR_FR10) > ADVANCE_STOP_RANGE)
-		ArUtil::sleep(100);
+		safeSleep(100);
 	cout << "  obstacle detected ahead at " << ADVANCE_STOP_RANGE << " mm" << endl;
 
 	//TODO: the while loop above currently waits for a sonar reading whose range
@@ -256,7 +257,7 @@ bool RobotController :: doScan(ArPose& gapLocation)
 
 		// wait for the robot to rotate by 5 degrees for each iteration
 		while (robot.getTh() < (-10.0 + i * 5.0))
-			ArUtil::sleep(100);
+			safeSleep(100);
 
 		// collect readings from the six front sonars spanning the -50 deg to
 		// +50 deg foreward arc
@@ -351,3 +352,27 @@ bool RobotController :: doScan(ArPose& gapLocation)
 		return maxStart;
 	};
 
+	/*
+		Same as the ArUtil::sleep, but divided into 100 intervals
+		wherein it checks to make sure there hasn't been a keystroke.
+		If there has, attempts to stop the robot and kills the process.
+	*/
+	void RobotController :: safeSleep(int duration)
+	{
+		for (int i=0; i<100; i++)
+		{
+			ArUtil::sleep(duration/100);
+			if (kbhit())
+			{
+				cout << "  KEYSTROKE -- halting robot and killing process" << endl;
+				try {
+					robot.lock();
+					robot.stop();
+					robot.unlock();
+				}
+				catch (char * e) { cout << "Error stopping robot: " << e << endl; }
+
+				exit(1);
+			}
+		}
+	}

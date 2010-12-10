@@ -28,6 +28,7 @@ private:
 	void doAdvance();
 	void doMoveThroughGap(ArPose gapLocation);
 	bool doScan(ArPose& gapLocation);
+	void safeSleep(int duration);
 
 	typedef vector<ArPose> PoseVec;
 	typedef PoseVec::iterator PoseVecIter;
