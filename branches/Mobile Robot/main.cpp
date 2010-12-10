@@ -19,7 +19,7 @@ using namespace std;
 // GLOBAL DATA DEFINITIONS -----------------------------------------------------
 
 const double ADVANCE_STOP_RANGE = 1000.0;
-const double GAP_X_CLEARANCE = 350.0;
+const double MOVE_STOP_RANGE = 500;
 const double MOVE_VEL = 400.0;
 const double STOP_DONE_VEL = 0.01;
 const double STOP_DONE_ROT_VEL = 0.1;
